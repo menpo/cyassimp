@@ -76,18 +76,24 @@ cmdclass['build_ext'] = build_ext
 
 
 setup(name='cyassimp',
-      version='0.1.1',
+      version='0.1.2',
       description='Fast Cython bindings for The Open Assimp Import Library',
       author='James Booth',
       author_email='james.booth08@imperial.ac.uk',
-      #ext_modules=cy_ext,
+      classifiers=[
+          'Development Status :: 3 - Alpha',
+          'Intended Audience :: Developers',
+          'Intended Audience :: Science/Research',
+          'License :: OSI Approved :: BSD License',
+          'Operating System :: OS Independent',
+          'Programming Language :: C++',
+          'Programming Language :: Cython',
+          'Programming Language :: Python :: 2',
+          'Programming Language :: Python :: 2.7',
+      ],
       ext_modules=extensions,
       packages=find_packages(),
       package_data={'cyassimp': ['*.pyx', 'cpp/*.h']},
-      # sure the .pyx
-      # file
-      #  is
-      # kept
       cmdclass=cmdclass,
       setup_requires=['numpy>=1.8.0'],
       install_requires=['numpy>=1.8.0']
