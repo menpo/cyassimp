@@ -76,7 +76,7 @@ cmdclass['build_ext'] = build_ext
 
 
 setup(name='cyassimp',
-      version='0.1',
+      version='0.1.1',
       description='Fast Cython bindings for The Open Assimp Import Library',
       author='James Booth',
       author_email='james.booth08@imperial.ac.uk',
