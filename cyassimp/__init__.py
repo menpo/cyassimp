@@ -1,0 +1,1 @@
+from .cyassimpwrapper import AIImporter

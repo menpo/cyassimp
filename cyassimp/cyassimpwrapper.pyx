@@ -1,12 +1,11 @@
-# distutils: language = c++
-# distutils: sources = ./cpp/assimpwrapper.cpp
-# distutils: libraries = assimp
+# see setup.py for libraries and ext_sources
 from libcpp.string cimport string
 from libcpp.vector cimport vector
 from libcpp cimport bool
 import numpy as np
 cimport numpy as np
 
+libraries = ['cyassmp']
 
 # externally declare the C++ classes
 cdef extern from "./cpp/assimpwrapper.h":
@@ -31,7 +30,6 @@ cdef extern from "./cpp/assimpwrapper.h":
         void points(double* points)
         void trilist(unsigned int* trilist)
         void tcoords(int index, double* tcoords)
-
 
 cdef class AIImporter:
     r"""

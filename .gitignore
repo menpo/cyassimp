@@ -1,5 +1,5 @@
 # Don't check in Cython generated C++
-cyassimp.cpp
+cyassimp/cyassimpwrapper.cpp
 *.swp
 *.pyc
 *.so
