@@ -49,6 +49,7 @@ class AssimpMesh{
     unsigned int n_points();
     unsigned int n_faces();
     unsigned int n_tcoord_sets();
+    unsigned int n_colour_sets();
     bool has_points();
     bool has_lines();
     bool has_triangles();
@@ -58,10 +59,12 @@ class AssimpMesh{
     void points(double* points);
     void trilist(unsigned int* trilist);
     void tcoords(int index, double* tcoords);
+    void colour_per_vertex(int index, double* colour_per_vertex);
     void tcoords_with_alpha(int index, double* tcoords);
 };
 
 
 // *************** HELPER ROUTINES *************** //
 unsigned int tcoords_mask(aiMesh* mesh, bool* has_tcoords);
+unsigned int colour_sets_mask(aiMesh* mesh, bool* has_colour_sets);
 std::string diffuse_texture_path_on_material(aiMaterial* mat);

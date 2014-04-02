@@ -25,11 +25,13 @@ cdef extern from "./cpp/assimpwrapper.h":
         unsigned int n_points()
         unsigned int n_faces()
         unsigned int n_tcoord_sets()
+        unsigned int n_colour_sets()
         bool is_trimesh()
         bool is_pointcloud()
         void points(double* points)
         void trilist(unsigned int* trilist)
         void tcoords(int index, double* tcoords)
+        void colour_per_vertex(int index, double* colour_per_vertex)
 
 cdef class AIImporter:
     r"""
@@ -130,6 +132,15 @@ cdef class AITriMeshImporter:
         return self.thisptr.n_tcoord_sets()
 
     @property
+    def n_colour_sets(self):
+        r"""
+        Number of color per vertex sets for the mesh.
+
+        :type: int
+        """
+        return self.thisptr.n_colour_sets()
+
+    @property
     def points(self):
         r"""
         The array of points.
@@ -158,7 +169,7 @@ cdef class AITriMeshImporter:
         r"""
         The texture coordinates.
 
-        :type: (``n_points``, 2) c-contiguous unsigned int ndarray
+        :type: (``n_points``, 2) c-contiguous double ndarray
         """
         cdef np.ndarray[double, ndim=2, mode='c'] tcoords = \
             np.empty([self.n_points, 2])
@@ -167,11 +178,19 @@ cdef class AITriMeshImporter:
 
     @property
     def colour_per_vertex(self):
-        # TODO: Support colour per vertex in assimp
-        return None
+        r"""
+        The colors per vertex.
+
+        :type: (``n_points``, 3) c-contiguous double ndarray
+        """
+        cdef np.ndarray[double, ndim=2, mode='c'] colour_sets = \
+            np.empty([self.n_points, 3])
+        self.thisptr.colour_per_vertex(0, &colour_sets[0, 0])
+        return colour_sets
 
     def __str__(self):
         msg = 'n_points: %d\n' % self.n_points
         msg += 'n_tris:   %d\n' % self.n_tris
         msg += 'n_tcoord_sets %d' % self.n_tcoord_sets
+        msg += 'n_color_sets %d' % self.n_color_sets
         return msg

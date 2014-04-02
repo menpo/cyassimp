@@ -16,7 +16,6 @@ AssimpImporter::AssimpImporter(std::string path){
             aiComponent_TANGENTS_AND_BITANGENTS |
             aiComponent_ANIMATIONS              |
             aiComponent_BONEWEIGHTS             |
-            aiComponent_COLORS                  |
             aiComponent_LIGHTS                  |
             aiComponent_CAMERAS                 |
             0);
@@ -93,6 +92,11 @@ unsigned int AssimpMesh::n_tcoord_sets(){
     return tcoords_mask(p_mesh, has_tcoords);
 }
 
+unsigned int AssimpMesh::n_colour_sets(){
+    bool has_colour_sets[AI_MAX_NUMBER_OF_COLOR_SETS];
+    return colour_sets_mask(p_mesh, has_colour_sets);
+}
+
 bool AssimpMesh::has_points(){
     return aiPrimitiveType_POINT & p_mesh->mPrimitiveTypes;
 }
@@ -138,6 +142,20 @@ void AssimpMesh::trilist(unsigned int* trilist){
     }
 }
 
+void AssimpMesh::colour_per_vertex(int index, double* colour_per_vertex){
+    /* Reads the (r,g,b) colors per vertex, removing the alpha channel
+     * component. Expects colors_per_vertex to be a C contiguous array of size
+     * (n_points, 3)
+     */
+    aiColor4D* colours_array = p_mesh->mColors[index];
+    for(unsigned int i = 0; i < p_mesh->mNumVertices; i++) {
+        aiColor4D colours = colours_array[i];
+        colour_per_vertex[3*i] = colours.r;
+        colour_per_vertex[3*i + 1] = colours.g;
+        colour_per_vertex[3*i + 2] = colours.b;
+    }
+}
+
 void AssimpMesh::tcoords(int index, double* tcoords){
     /* Reads the (s,t) tcoords, removing the alpha channel component.
      * expects tcoords to be a C contiguous array of size
@@ -179,6 +197,19 @@ unsigned int tcoords_mask(aiMesh* mesh, bool* has_tcoords){
             has_tcoords[i] = false;
     }
     return tcoords_counter;
+}
+
+unsigned int colour_sets_mask(aiMesh* mesh, bool* has_colour_sets){
+    int colour_sets_counter = 0;
+    for(int i = 0; i < AI_MAX_NUMBER_OF_COLOR_SETS; i++){
+        if(mesh->HasVertexColors(i)) {
+            has_colour_sets[i] = true;
+            colour_sets_counter++;
+        }
+        else
+            has_colour_sets[i] = false;
+    }
+    return colour_sets_counter;
 }
 
 std::string diffuse_texture_path_on_material(aiMaterial* mat){
