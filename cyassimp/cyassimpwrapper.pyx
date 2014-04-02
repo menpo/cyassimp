@@ -171,10 +171,13 @@ cdef class AITriMeshImporter:
 
         :type: (``n_points``, 2) c-contiguous double ndarray
         """
-        cdef np.ndarray[double, ndim=2, mode='c'] tcoords = \
-            np.empty([self.n_points, 2])
-        self.thisptr.tcoords(0, &tcoords[0, 0])
-        return tcoords
+        cdef np.ndarray[double, ndim=2, mode='c'] tcoords
+        if self.n_tcoord_sets:
+            tcoords = np.empty([self.n_points, 2])
+            self.thisptr.tcoords(0, &tcoords[0, 0])
+            return tcoords
+        else:
+            return None
 
     @property
     def colour_per_vertex(self):
@@ -183,10 +186,13 @@ cdef class AITriMeshImporter:
 
         :type: (``n_points``, 3) c-contiguous double ndarray
         """
-        cdef np.ndarray[double, ndim=2, mode='c'] colour_sets = \
-            np.empty([self.n_points, 3])
-        self.thisptr.colour_per_vertex(0, &colour_sets[0, 0])
-        return colour_sets
+        cdef np.ndarray[double, ndim=2, mode='c'] colour_sets
+        if self.n_colour_sets:
+            colour_sets = np.empty([self.n_points, 3])
+            self.thisptr.colour_per_vertex(0, &colour_sets[0, 0])
+            return colour_sets
+        else:
+            return None
 
     def __str__(self):
         msg = 'n_points: %d\n' % self.n_points
