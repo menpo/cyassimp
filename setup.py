@@ -1,13 +1,14 @@
 from setuptools import setup, find_packages, Extension
 from setuptools.command.build_ext import build_ext as _build_ext
 from setuptools.command.sdist import sdist as _sdist
+import os.path as op
 
 # Partially adapted from https://github.com/OP2/PyOP2/blob/master/setup.py
 
 
-pyx_sources = ["./cyassimp/cyassimpwrapper.pyx"]
-cythonized_sources = ["./cyassimp/cyassimpwrapper.cpp"]
-external_sources = ["./cyassimp/cpp/assimpwrapper.cpp"]
+pyx_sources = [op.join('cyassimp', 'cyassimpwrapper.pyx')]
+cythonized_sources = [op.join('cyassimp', 'cyassimpwrapper.cpp')]
+external_sources = [op.join('cyassimp', 'cpp', 'assimpwrapper.cpp')]
 
 # kwargs to be provided to distutils
 ext_kwargs = {
