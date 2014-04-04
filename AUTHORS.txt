@@ -1,0 +1,13 @@
+Cyassimp was written by
+
+James Booth             <jabooth@gmail.com> <james.booth@imperial.ac.uk>
+
+and has received contributions from the following:
+
+Institutions
+------------
+Imperial College London
+
+Individuals
+-----------
+Patrick Snape           <patricksnape@gmail.com> <p.snape@imperial.ac.uk>
