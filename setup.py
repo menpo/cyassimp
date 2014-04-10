@@ -81,6 +81,7 @@ setup(name='cyassimp',
       description='Fast Cython bindings for The Open Assimp Import Library',
       author='James Booth',
       author_email='james.booth08@imperial.ac.uk',
+      url='https://github.com/menpo/cyassimp/',
       classifiers=[
           'Development Status :: 3 - Alpha',
           'Intended Audience :: Developers',
