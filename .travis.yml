@@ -37,7 +37,7 @@ install:
   - echo $TRAVIS_TAG
   - cd ./conda
   # Add the version number
-  - sed 's/VERSION_NO/$PACKAGE_VERSION/g' < meta_no_version.yaml > meta.yaml
+  - sed "s/VERSION_NO/$PACKAGE_VERSION/g" < meta_no_version.yaml > meta.yaml
   - cat meta.yaml
   - cat meta_no_version.yaml
   - conda build .
