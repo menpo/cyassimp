@@ -30,8 +30,9 @@ install:
   - echo $TRAVIS_COMMIT
   - echo $TRAVIS_PULL_REQUEST
   - echo $TRAVIS_TAG
+  - echo ${BINSTARKEY?"It isnt called binstarkey"}
   - conda build ./conda
-  - binstar upload -t $BINSTARKEY -u menpo -c testing *.tar.bz2
+  - binstar upload -u menpo -c testing *.tar.bz2
 script:
   - echo success
 env:
