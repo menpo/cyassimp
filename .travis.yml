@@ -16,7 +16,7 @@ before_install:
   # setup conda (for Python 2 or 3)
   - wget $MINICONDA_URL -O miniconda.sh
   - chmod +x miniconda.sh
-  - ./miniconda.sh -b
+  - ./miniconda.sh -b -p ~/miniconda
   - export PATH=/home/travis/miniconda/bin:$PATH
   - conda update --yes conda
   - conda install --yes conda-build jinja2 binstar
