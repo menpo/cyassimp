@@ -1,0 +1,29 @@
+notifications:
+  email: false
+  # notify gitter
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/7599ff4870c99ba51310
+    on_success: always  # options: [always|never|change] default: always
+    on_failure: always  # options: [always|never|change] default: always
+    on_start: never     # default: never
+
+ # Setup anaconda
+before_install:
+  - wget http://repo.continuum.io/miniconda/Miniconda-3.6.0-Linux-x86_64.sh -O miniconda.sh
+  - chmod +x miniconda.sh
+  - ./miniconda.sh -b
+  - export PATH=/home/travis/miniconda/bin:$PATH
+  - conda update --yes conda
+  - conda config --add channels menpo
+  # The next couple lines fix a crash with multiprocessing on Travis and are not specific to using Miniconda
+  - sudo rm -rf /dev/shm
+  - sudo ln -s /run/shm /dev/shm
+
+# Install packages
+install:
+  - conda install --yes pip cyassimp
+ 
+# Run test
+script:
+  - python -c 'import cyassimp'
