@@ -48,7 +48,8 @@ script:
   - binstar -t $BINSTAR_KEY upload -u menpo -c testing $BINSTAR_TAR
 
 env:
-  - MINICONDA_URL=http://repo.continuum.io/miniconda/Miniconda-3.6.0-Linux-x86_64.sh
-  - MINICONDA_URL=http://repo.continuum.io/miniconda/Miniconda3-3.6.0-Linux-x86_64.sh
   global:
     secure: uwdgq+mWwgROLeY51aqJrGJcd/dOLWYqsURkqsCUQhWeg9s5mQ0q0G+WZgmoVrY9htn5ORdq9r45ZnZiSPTYmjbw28iB4w1iOzcUZYjQg18AZ3QSZzbkNkVRbOWJZ//3g/T2he1dIa0euk5Mk9qx06+r2OfAgpvOaG8XwB/idRU=
+  matrix:
+    - MINICONDA_URL=http://repo.continuum.io/miniconda/Miniconda-3.6.0-Linux-x86_64.sh
+    - MINICONDA_URL=http://repo.continuum.io/miniconda/Miniconda3-3.6.0-Linux-x86_64.sh
