@@ -36,10 +36,8 @@ install:
   - echo $TRAVIS_PULL_REQUEST
   - echo $TRAVIS_TAG
   - cd ./conda
-  - cat meta.yaml
   # Add the version number
-  - sed 's/VERSION_NO/$PACKAGE_VERSION/g' < meta.yaml > meta.yaml
-  - cat meta.yaml
+  - sed 's/VERSION_NO/$PACKAGE_VERSION/g' < meta_no_version.yaml > meta.yaml
   - conda build .
   # find out where the build ended up
   - wget http://bit.ly/1pqIe85 -O get_tar_path.py
