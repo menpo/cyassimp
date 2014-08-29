@@ -31,8 +31,9 @@ install:
   - echo $TRAVIS_PULL_REQUEST
   - echo $TRAVIS_TAG
   - conda build ./conda
-  - binstar upload *.tar.bz2 --channel testing
- 
-# Noop for now, coverage in future
+  - binstar upload -t $BINSTARKEY -u menpo -c testing *.tar.bz2
 script:
   - echo success
+env:
+  global:
+    secure: z98jxQqdkDwLWk698AkLXjdJgQ5VdWMKGwD1I4pfpVrggunJiuF9BCMatCBQL5/3YOHG5aPMLjFAU2Av/N5G4LvVgR3Sc21nDARIMT+TdRBapjqYyjYBse2l4EoeDDCG/iYecWHIo2GgvpMuc6slLqYcihRysnrNQJurwxEXZM4=
