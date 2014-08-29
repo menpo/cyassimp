@@ -1,6 +1,5 @@
 notifications:
   email: false
-  # notify gitter
   webhooks:
     urls:
       - https://webhooks.gitter.im/e/7599ff4870c99ba51310
@@ -17,24 +16,24 @@ before_install:
   - conda update --yes conda
   - conda install --yes conda-build jinja2 binstar
   - conda config --add channels menpo
-  # The next couple lines fix a crash with multiprocessing on Travis and are not specific to using Miniconda
   - sudo rm -rf /dev/shm
   - sudo ln -s /run/shm /dev/shm
   - cd cyassimp
   - PACKAGE_VERSION=$(python -c "import os, _version; print(_version.get_versions()['version'])")
   - echo $PACKAGE_VERSION
   - cd ..
-# Install packages - let conda test
+
 install:
   - echo $TRAVIS_BRANCH
   - echo $TRAVIS_COMMIT
   - echo $TRAVIS_PULL_REQUEST
   - echo $TRAVIS_TAG
-  - echo ${BINSTAR_KEY?"It isnt called binstarkey"}
   - conda build ./conda
   - binstar upload -u menpo -c testing *.tar.bz2
+
 script:
   - echo success
+
 env:
   global:
-    secure: z98jxQqdkDwLWk698AkLXjdJgQ5VdWMKGwD1I4pfpVrggunJiuF9BCMatCBQL5/3YOHG5aPMLjFAU2Av/N5G4LvVgR3Sc21nDARIMT+TdRBapjqYyjYBse2l4EoeDDCG/iYecWHIo2GgvpMuc6slLqYcihRysnrNQJurwxEXZM4=
+    secure: uwdgq+mWwgROLeY51aqJrGJcd/dOLWYqsURkqsCUQhWeg9s5mQ0q0G+WZgmoVrY9htn5ORdq9r45ZnZiSPTYmjbw28iB4w1iOzcUZYjQg18AZ3QSZzbkNkVRbOWJZ//3g/T2he1dIa0euk5Mk9qx06+r2OfAgpvOaG8XwB/idRU=
