@@ -2,6 +2,10 @@ os:
   - linux
   - osx
 
+env:
+ - MINICONDA_URL=http://repo.continuum.io/miniconda/Miniconda-3.6.0-Linux-x86_64.sh
+ - MINICONDA_URL=http://repo.continuum.io/miniconda/Miniconda3-3.6.0-Linux-x86_64.sh
+
 notifications:
   email: false
   webhooks:
@@ -13,8 +17,8 @@ notifications:
 
  # Setup anaconda
 before_install:
-  # setup conda
-  - wget http://repo.continuum.io/miniconda/Miniconda-3.6.0-Linux-x86_64.sh -O miniconda.sh
+  # setup conda (for Python 2 or 3)
+  - wget MINICONDA_URL -O miniconda.sh
   - chmod +x miniconda.sh
   - ./miniconda.sh -b
   - export PATH=/home/travis/miniconda/bin:$PATH
