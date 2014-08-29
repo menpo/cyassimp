@@ -9,6 +9,7 @@ notifications:
 
  # Setup anaconda
 before_install:
+  # setup conda
   - wget http://repo.continuum.io/miniconda/Miniconda-3.6.0-Linux-x86_64.sh -O miniconda.sh
   - chmod +x miniconda.sh
   - ./miniconda.sh -b
@@ -16,12 +17,16 @@ before_install:
   - conda update --yes conda
   - conda install --yes conda-build jinja2 binstar
   - conda config --add channels menpo
-  - sudo rm -rf /dev/shm
-  - sudo ln -s /run/shm /dev/shm
+
+  # get the package version
   - cd cyassimp
   - PACKAGE_VERSION=$(python -c "import os, _version; print(_version.get_versions()['version'])")
   - echo $PACKAGE_VERSION
   - cd ..
+
+  # fix for multiprocessing bug
+  - sudo rm -rf /dev/shm
+  - sudo ln -s /run/shm /dev/shm
 
 install:
   - echo $TRAVIS_BRANCH
@@ -29,10 +34,14 @@ install:
   - echo $TRAVIS_PULL_REQUEST
   - echo $TRAVIS_TAG
   - conda build ./conda
-  - binstar -t $BINSTAR_KEY upload -u menpo -c testing /home/travis/miniconda/conda-bld/linux-64/cyassimp-0.1.4-np18py27_0.tar.bz2
 
 script:
-  - echo success
+  # find out where the build ended up
+  - wget http://bit.ly/1pqIe85 -O get_tar_path.py
+  - BINSTAR_TAR=$(python get_tar_path.py)
+
+  # upload to binstar
+  - binstar -t $BINSTAR_KEY upload -u menpo -c testing $BINSTAR_TAR
 
 env:
   global:
