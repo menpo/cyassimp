@@ -1,4 +1,7 @@
 #!/bin/sh
+
+cp -r $RECIPE_DIR/../ .
+
 MAKE_ARCH="-m"$ARCH
 
 if [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
