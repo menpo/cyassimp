@@ -23,10 +23,8 @@ before_install:
   - conda config --add channels menpo
 
   # get the package version
-  - cd cyassimp
   - PACKAGE_VERSION=$(git describe --tag | sed 's/-/_/g' | cut -c 2-)
   - echo $PACKAGE_VERSION
-  - cd ..
 
   # fix for multiprocessing bug
   - sudo rm -rf /dev/shm
@@ -42,6 +40,7 @@ install:
   # find out where the build ended up
   - wget http://bit.ly/1pqIe85 -O get_tar_path.py
   - BINSTAR_TAR=$(python get_tar_path.py)
+  - sed 's/VERSION_NO/$PACKAGE_VERSION/g' < meta.yaml > meta.yaml
 
 script:
   # upload to binstar
