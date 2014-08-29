@@ -23,7 +23,7 @@ before_install:
   - conda config --add channels menpo
 
   # get the package version
-  - PACKAGE_VERSION=$(git describe --tag | sed 's/-/_/g' | cut -c 2-)
+  - PACKAGE_VERSION=$(git describe --tag --always | sed 's/-/_/g' | cut -c 2-)
   - echo $PACKAGE_VERSION
 
   # fix for multiprocessing bug
