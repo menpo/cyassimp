@@ -1,0 +1,32 @@
+package:
+  name: cyassimp
+  version: 0.1.3
+
+source:
+  fn: cyassimp-0.1.3.tar.gz
+  url: https://pypi.python.org/packages/source/c/cyassimp/cyassimp-0.1.3.tar.gz
+  md5: a0cded25388b7ae903841266420ec3ff
+
+  patches:
+    - windows_setup.patch [win]
+
+requirements:
+  build:
+    - python
+    - distribute
+    - numpy
+    - cython
+    - assimp
+
+  run:
+    - python
+    - numpy
+    - assimp [unix]
+	
+test:
+  imports:
+    - cyassimp
+
+about:
+  home: https://github.com/menpo/cyassimp/
+  license: BSD License
