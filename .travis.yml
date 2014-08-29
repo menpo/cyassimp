@@ -39,6 +39,8 @@ install:
   # Add the version number
   - sed 's/VERSION_NO/$PACKAGE_VERSION/g' < meta_no_version.yaml > meta.yaml
   - conda build .
+  - cat meta.yaml
+  - cat meta_no_version.yaml
   # find out where the build ended up
   - wget http://bit.ly/1pqIe85 -O get_tar_path.py
   - BINSTAR_TAR=$(python get_tar_path.py)
