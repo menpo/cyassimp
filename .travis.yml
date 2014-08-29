@@ -26,6 +26,7 @@ install:
   - echo $TRAVIS_BRANCH
   - echo $TRAVIS_COMMIT
   - echo $TRAVIS_PULL_REQUEST
+  - echo $TRAVIS_TAG
   - conda-build ./conda
  
 # Run test
