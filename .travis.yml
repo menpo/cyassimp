@@ -34,12 +34,11 @@ install:
   - echo $TRAVIS_PULL_REQUEST
   - echo $TRAVIS_TAG
   - conda build ./conda
-
-script:
   # find out where the build ended up
   - wget http://bit.ly/1pqIe85 -O get_tar_path.py
   - BINSTAR_TAR=$(python get_tar_path.py)
 
+script:
   # upload to binstar
   - binstar -t $BINSTAR_KEY upload -u menpo -c testing $BINSTAR_TAR
 
