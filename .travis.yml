@@ -29,7 +29,7 @@ install:
   - echo $TRAVIS_PULL_REQUEST
   - echo $TRAVIS_TAG
   - conda build ./conda
-  - binstar upload -u /t/$BINSTAR_KEY/menpo -c testing /home/travis/miniconda/conda-bld/linux-64/cyassimp-0.1.4-np18py27_0.tar.bz2
+  - binstar -t $BINSTAR_KEY upload -u menpo -c testing /home/travis/miniconda/conda-bld/linux-64/cyassimp-0.1.4-np18py27_0.tar.bz2
 
 script:
   - echo success
