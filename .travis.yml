@@ -22,8 +22,9 @@ before_install:
 
 # Install packages
 install:
-  - conda install --yes python cyassimp
+  - conda install --yes cyassimp
  
 # Run test
 script:
+  - cd
   - python -c 'import cyassimp'
