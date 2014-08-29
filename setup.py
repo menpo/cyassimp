@@ -1,7 +1,16 @@
 from setuptools import setup, find_packages, Extension
 from setuptools.command.build_ext import build_ext as _build_ext
-from setuptools.command.sdist import sdist as _sdist
 import os.path as op
+
+import versioneer
+
+# Versioneer allows us to automatically generate versioning from
+# our git tagging system which makes releases simpler.
+versioneer.VCS = 'git'
+versioneer.versionfile_source = 'cyassimp/_version.py'
+versioneer.versionfile_build = 'cyassimp/_version.py'
+versioneer.tag_prefix = 'v'  # tags are like v1.2.0
+versioneer.parentdir_prefix = 'cyassimp-'  # dirname like 'cyassimp-v1.2.0'
 
 # Partially adapted from https://github.com/OP2/PyOP2/blob/master/setup.py
 
@@ -47,15 +56,22 @@ except ImportError:
 
 # either way, by now, extensions is correctly set.
 
-# Subclass sdist to ensure Cython is run when a new distribution is built
+# get the versioneer cmdclass
+cmdclass = versioneer.get_cmdclass()
+_sdist = cmdclass['sdist']
+
+# Subclass versioneer sdist to ensure Cython is run when a new distribution is
+# built.
 class sdist(_sdist):
 
     def run(self):
-        # Make sure the compiled Cython files in the distribution are up-to-date
+        # Make sure the compiled Cython files in the distribution are
+        # up-to-date
         ext_from_source()
         _sdist.run(self)
 
-cmdclass = {'sdist': sdist}
+# set the sdist back (cython -> versioneer -> setuptools)
+cmdclass['sdist'] = sdist
 
 
 # http://stackoverflow.com/a/21621689/2691632
@@ -77,7 +93,8 @@ cmdclass['build_ext'] = build_ext
 
 
 setup(name='cyassimp',
-      version='0.1.3',
+      version=versioneer.get_version(),
+      cmdclass=cmdclass,
       description='Fast Cython bindings for The Open Assimp Import Library',
       author='James Booth',
       author_email='james.booth08@imperial.ac.uk',
@@ -96,7 +113,6 @@ setup(name='cyassimp',
       ext_modules=extensions,
       packages=find_packages(),
       package_data={'cyassimp': ['*.pyx', 'cpp/*.h']},
-      cmdclass=cmdclass,
       setup_requires=['numpy>=1.8.0'],
       install_requires=['numpy>=1.8.0']
       )

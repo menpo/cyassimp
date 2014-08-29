@@ -1,0 +1,2 @@
+include versioneer.py
+include cyassimp/_version.py
