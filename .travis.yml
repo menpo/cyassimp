@@ -33,4 +33,4 @@ install:
  
 # Noop for now, coverage in future
 script:
-  - :
+  - echo success
