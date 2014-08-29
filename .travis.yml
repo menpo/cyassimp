@@ -23,6 +23,7 @@ before_install:
   - cd cyassimp
   - PACKAGE_VERSION=$(python -c "import os, _version; print(_version.get_versions()['version'])")
   - echo $PACKAGE_VERSION
+  - cd ..
 # Install packages - let conda test
 install:
   - echo $TRAVIS_BRANCH
