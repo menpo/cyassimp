@@ -1,6 +1,8 @@
 package:
   name: cyassimp
-  version: {{ environ['PACKAGE_VERSION'] }}
+#  version: {% if environ.get('GIT_DESCRIBE_NUMBER', 0) == 0 %} {{ environ['GIT_DESCRIBE_TAG'] }} {% else %} {{ environ.get('GIT_BUILD_STR', '') }} {% endif %}
+  version: {{ environ['GIT_DESCRIBE_TAG'] }}
+  #version: 0.1.4_28_gf23dd5c
 
 requirements:
   build:
@@ -22,3 +24,6 @@ test:
 about:
   home: https://github.com/menpo/cyassimp/
   license: BSD License
+
+source:
+  git_url: ../
