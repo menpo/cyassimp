@@ -11,6 +11,7 @@ yaml_version_placeholder = 'VERSION_NUMBER'
 
 # forward stderr to stdout
 co = partial(subprocess.check_output, stderr=subprocess.STDOUT)
+check = partial(subprocess.check_call, stderr=subprocess.STDOUT)
 
 
 def execute(cmd, verbose=False):
@@ -76,9 +77,8 @@ def get_conda_build_path(path):
 
 
 def upload_to_binstar(key, user, channel, path):
-    # verbose false as we don't want to print our key to Travis!
-    execute([binstar, '-t', key, 'upload', '-u', user, '-c', channel, path],
-            verbose=False)
+    # check only as we don't want to print our key to Travis!
+    check([binstar, '-t', key, 'upload', '-u', user, '-c', channel, path])
 
 
 def upload(path, key, user, channel):
