@@ -148,6 +148,6 @@ if __name__ == "__main__":
         build(ns.path)
         can_upload = resolve_if_can_upload_from_travis()
         if can_upload:
-            print('Uploading to {}/{}'.format(ns.user, channel))
             channel = resolve_channel_from_travis_state()
+            print('Uploading to {}/{}'.format(ns.user, channel))
             upload(ns.path, key, ns.user, channel)
