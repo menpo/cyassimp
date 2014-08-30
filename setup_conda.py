@@ -84,8 +84,7 @@ def upload_to_binstar(key, user, channel, path):
                   path], verbose=False)
 
 
-def build_and_upload(path, key, user, channel):
-    build(path)
+def upload(path, key, user, channel):
     # get a handle on the conda output
     built_tar = get_conda_build_path(path)
     upload_to_binstar(key, user, channel, built_tar)
@@ -144,7 +143,8 @@ if __name__ == "__main__":
         key = ns.key
         if key is None:
             raise ValueError("You must provide a key for the build script.")
+        build(ns.path)
         can_upload = resolve_if_can_upload_from_travis()
         if can_upload:
             channel = resolve_channel_from_travis_state()
-            build_and_upload(ns.path, key, ns.user, 'testing')
+            upload(ns.path, key, ns.user, 'testing')
