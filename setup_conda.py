@@ -96,7 +96,7 @@ url = os.environ.get('MINICONDA_URL')
 
 # STAGE 1
 
-setup_and_find_version(url, os.getcwd(), channel='menpo')
+#setup_and_find_version(url, os.getcwd(), channel='menpo')
 
 # STAGE 2
 
@@ -104,3 +104,22 @@ setup_and_find_version(url, os.getcwd(), channel='menpo')
 # key = os.environ.get('BINSTAR_KEY')
 
 # build_and_upload(os.getcwd(), key, 'menpo', 'testing')
+
+if __name__ == "__main__":
+    from argparse import ArgumentParser
+    parser = ArgumentParser(
+        description=r"""
+        Setup conda, version meta.yaml, and upload to binstar on Travis CI.
+        """)
+    parser.add_argument("mode", help="'setup' or 'build'")
+    parser.add_argument("path", help="path to the conda build scripts")
+    ns = parser.parse_args()
+    import os
+    # grab the URL
+    url = os.environ.get('MINICONDA_URL')
+
+    if ns.mode == 'setup':
+        setup_and_find_version(url, ns.path, channel='menpo')
+    elif ns.mode == 'build':
+        key = os.environ.get('BINSTAR_KEY')
+        build_and_upload(ns.path, key, 'menpo', 'testing')
