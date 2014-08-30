@@ -1,9 +1,13 @@
 #!/usr/bin/env python
 import subprocess
+import os
 import os.path as p
 from functools import partial
 
+# the string that is in the meta.yaml file that will be replaced by the
+# tag-generated version number
 yaml_version_placeholder = 'VERSION_NUMBER'
+
 
 # forward stderr to stdout
 co = partial(subprocess.check_output, stderr=subprocess.STDOUT)
@@ -16,9 +20,6 @@ def execute(cmd, verbose=False):
     if verbose:
         print(result)
     return result
-
-# eXecute and display status
-x = partial(execute, verbose=True)
 
 miniconda_dir = p.expanduser('~/miniconda')
 
@@ -52,7 +53,7 @@ def setup_conda(url, channel=None):
 
 
 def get_version():
-    raw_describe = x(['git', 'describe', '--tag'])
+    raw_describe = execute(['git', 'describe', '--tag'], verbose=True)
     # conda does not like '-' in version strings
     return raw_describe.strip().replace('-', '_')[1:]
 
@@ -65,7 +66,7 @@ def replace_text_in_file(path, placeholder, replacement):
 
 
 def build(path):
-    x([conda, 'build', path])
+    run_commands([conda, 'build', path])
 
 
 def get_conda_build_path(path):
@@ -77,7 +78,7 @@ def get_conda_build_path(path):
 def upload_to_binstar(key, user, channel, path):
     # verbose false as we don't want to print our key to Travis!
     run_commands([binstar, '-t', key, 'upload', '-u', user, '-c', channel,
-                  path], verbose=True)
+                  path], verbose=False)
 
 
 def upload(path, key, user, channel):
@@ -92,17 +93,12 @@ def setup_and_find_version(url, build_dir, channel=None):
     # update the yaml file to have the verion number
     replace_text_in_file(p.join(build_dir, 'meta.yaml'), yaml_version_placeholder, get_version())
 
-import os
-# grab the URL
-url = os.environ.get('MINICONDA_URL')
 
-
-def resolve_if_can_upload_from_travis():
+def resolve_can_upload_from_travis():
     is_a_pr = os.environ['TRAVIS_PULL_REQUEST'] == 'true'
-    print("Deciding if we can upload")
-    print(is_a_pr)
-    # not on a PR -> can upload
-    return not is_a_pr
+    can_upload = not is_a_pr
+    print("Can we can upload? : {}".format(can_upload))
+    return can_upload
 
 
 def resolve_channel_from_travis_state():
@@ -146,8 +142,8 @@ if __name__ == "__main__":
         if key is None:
             raise ValueError("You must provide a key for the build script.")
         build(ns.path)
-        can_upload = resolve_if_can_upload_from_travis()
-        if can_upload:
+        upload_allowed = resolve_can_upload_from_travis()
+        if upload_allowed:
             channel = resolve_channel_from_travis_state()
             print('Uploading to {}/{}'.format(ns.user, channel))
             upload(ns.path, key, ns.user, channel)
