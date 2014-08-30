@@ -81,7 +81,7 @@ def get_conda_build_path(path):
 def upload_to_binstar(key, user, channel, path):
     # verbose false as we don't want to print our key to Travis!
     run_commands([binstar, '-t', key, 'upload', '-u', user, '-c', channel,
-                  path], verbose=False)
+                  path], verbose=True)
 
 
 def upload(path, key, user, channel):
