@@ -52,11 +52,6 @@ def setup_conda(url, channel=None):
 
 
 def get_version():
-    travis_tag = os.environ['TRAVIS_TAG']
-    print(travis_tag)
-    if travis_tag is not None:
-        # we are sat on a tag!
-        return travis_tag[1:]
     raw_describe = x(['git', 'describe', '--tag'])
     # conda does not like '-' in version strings
     return raw_describe.strip().replace('-', '_')[1:]
@@ -145,9 +140,11 @@ if __name__ == "__main__":
             raise ValueError("You must provide a miniconda URL for the setup command")
         setup_and_find_version(url, ns.path, channel=ns.channel)
     elif ns.mode == 'build':
+        print('Going into build mode')
         key = ns.key
         if key is None:
             raise ValueError("You must provide a key for the build script.")
+        print('building using path: {}'.format(ns.path))
         build(ns.path)
         can_upload = resolve_if_can_upload_from_travis()
         if can_upload:
