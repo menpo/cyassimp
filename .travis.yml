@@ -26,7 +26,7 @@ script:
   - echo $TRAVIS_PULL_REQUEST
   - echo $TRAVIS_TAG
   - export PATH=/home/travis/miniconda/bin:$PATH
-  - ./setup_conda.py build ./conda --key $BINSTAR_KEY
+  - ./setup_conda.py build ./conda --user menpo --key $BINSTAR_KEY
 
 env:
   global:
