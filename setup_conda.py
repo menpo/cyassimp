@@ -26,7 +26,7 @@ import os
 url = os.environ.get('MINICONDA_URL')
 
 try:
-    x(['wget', url, '-O', miniconda_file])
+    x(['wget', '-nv', url, '-O', miniconda_file])
     x(['chmod', '+x', miniconda_file])
     x([p.join('.', miniconda_file), '-b', '-p', miniconda_dir])
     x([conda, 'update', '--yes', 'conda'])
