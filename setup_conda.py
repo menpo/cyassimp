@@ -102,7 +102,7 @@ def resolve_if_can_upload_from_travis():
     print("Deciding if we can upload")
     print(pr)
     # not on a PR -> can upload
-    return pr is None
+    return not pr
 
 
 def resolve_channel_from_travis_state():
@@ -135,12 +135,13 @@ if __name__ == "__main__":
     ns = parser.parse_args()
 
     if ns.mode == 'setup':
+        print('Setting up package at path {}'.format(ns.path))
         url = ns.url
         if url is None:
             raise ValueError("You must provide a miniconda URL for the setup command")
         setup_and_find_version(url, ns.path, channel=ns.channel)
     elif ns.mode == 'build':
-        print('Going into build mode')
+        print('Building package at path {}'.format(ns.path))
         key = ns.key
         if key is None:
             raise ValueError("You must provide a key for the build script.")
@@ -149,4 +150,4 @@ if __name__ == "__main__":
         can_upload = resolve_if_can_upload_from_travis()
         if can_upload:
             channel = resolve_channel_from_travis_state()
-            upload(ns.path, key, ns.user, 'testing')
+            upload(ns.path, key, ns.user, channel)
