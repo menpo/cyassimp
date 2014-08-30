@@ -145,9 +145,9 @@ if __name__ == "__main__":
         key = ns.key
         if key is None:
             raise ValueError("You must provide a key for the build script.")
-        print('building using path: {}'.format(ns.path))
         build(ns.path)
         can_upload = resolve_if_can_upload_from_travis()
         if can_upload:
+            print('Uploading to {}/{}'.format(ns.user, channel))
             channel = resolve_channel_from_travis_state()
             upload(ns.path, key, ns.user, channel)
