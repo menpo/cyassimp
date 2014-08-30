@@ -19,14 +19,15 @@ install:
   # fix for multiprocessing bug
   - sudo rm -rf /dev/shm
   - sudo ln -s /run/shm /dev/shm
-
-script:
   - echo $TRAVIS_BRANCH
   - echo $TRAVIS_COMMIT
   - echo $TRAVIS_PULL_REQUEST
   - echo $TRAVIS_TAG
   - export PATH=/home/travis/miniconda/bin:$PATH
   - ./setup_conda.py build ./conda --user menpo --key $BINSTAR_KEY
+
+script:
+  - echo "hello world"
 
 env:
   global:
