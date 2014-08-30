@@ -1,0 +1,24 @@
+package:
+  name: cyassimp
+  version: VERSION_NUMBER
+
+requirements:
+  build:
+    - python
+    - distribute
+    - numpy
+    - cython
+    - assimp
+
+  run:
+    - python
+    - numpy
+    - assimp [unix]
+	
+test:
+  imports:
+    - cyassimp
+
+about:
+  home: https://github.com/menpo/cyassimp/
+  license: BSD License

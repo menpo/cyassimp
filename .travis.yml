@@ -1,0 +1,29 @@
+os:
+- linux
+- osx
+
+env:
+  global:
+  - secure: AyjlGc6MbYk4lwzK90oKqEXLPHIhOWE9Ee3Ez2eJu0ojyZWjE2RI/APrwbfc/Q5p8yHL1eM2rWZFxCxTHlxFwmqTPWcy1KI5vl+yXpQn2scmWcWGzuJbjDwk0SIO6KvjrjHxg3JJcxcO3niNkIbnVsYhMzK05LWQRJ1vissWZXY=
+  matrix:
+  - MINICONDA_URL=http://repo.continuum.io/miniconda/Miniconda-3.6.0-Linux-x86_64.sh
+  - MINICONDA_URL=http://repo.continuum.io/miniconda/Miniconda3-3.6.0-Linux-x86_64.sh
+
+install:
+- chmod +x setup_conda.py
+- ./setup_conda.py setup ./conda --url $MINICONDA_URL --channel menpo
+- sudo rm -rf /dev/shm
+- sudo ln -s /run/shm /dev/shm
+- export PATH=/home/travis/miniconda/bin:$PATH
+
+script:
+- ./setup_conda.py build ./conda --user menpo --key $BINSTAR_KEY
+
+notifications:
+  email: false
+  webhooks:
+    urls:
+    - https://webhooks.gitter.im/e/7599ff4870c99ba51310
+    on_success: always
+    on_failure: always
+    on_start: never
