@@ -15,7 +15,7 @@ notifications:
 install:
   # setup conda (for Python 2 or 3)
   - chmod +x setup_conda.py
-  - ./setup_conda.py setup ./conda -u $MINICONDA_URL
+  - ./setup_conda.py setup ./conda --url $MINICONDA_URL --channel menpo
   # fix for multiprocessing bug
   - sudo rm -rf /dev/shm
   - sudo ln -s /run/shm /dev/shm

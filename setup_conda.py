@@ -85,7 +85,7 @@ def build_and_upload(path, key, user, channel):
 
 
 def setup_and_find_version(url, build_dir, channel=None):
-    setup_conda(url, channel='menpo')
+    setup_conda(url, channel=channel)
 
     # update the yaml file to have the verion number
     replace_text_in_file(p.join(build_dir, 'meta.yaml'), yaml_version_placeholder, get_version())
@@ -94,16 +94,6 @@ import os
 # grab the URL
 url = os.environ.get('MINICONDA_URL')
 
-# STAGE 1
-
-#setup_and_find_version(url, os.getcwd(), channel='menpo')
-
-# STAGE 2
-
-# # grab the binstar key
-# key = os.environ.get('BINSTAR_KEY')
-
-# build_and_upload(os.getcwd(), key, 'menpo', 'testing')
 
 if __name__ == "__main__":
     from argparse import ArgumentParser
@@ -111,9 +101,13 @@ if __name__ == "__main__":
         description=r"""
         Setup conda, version meta.yaml, and upload to binstar on Travis CI.
         """)
-    parser.add_argument("mode", help="'setup' or 'build'")
+    parser.add_argument("mode", choices=['setup', 'build'])
     parser.add_argument("path", help="path to the conda build scripts")
-    parser.add_argument("-u", "--url", help="URL to download miniconda from")
+    parser.add_argument("--url", help="URL to download miniconda from")
+    parser.add_argument("-c", "--channel", help="binstar channel to activate "
+                                                "(setup only)")
+    parser.add_argument("-u", "--user", help="binstar user to upload to "
+                                             "(build only)")
     parser.add_argument("-k", "--key", help="The binstar key for uploading")
     ns = parser.parse_args()
 
@@ -121,9 +115,10 @@ if __name__ == "__main__":
         url = ns.url
         if url is None:
             raise ValueError("You must provide a miniconda URL for the setup command")
-        setup_and_find_version(url, ns.path, channel='menpo')
+        setup_and_find_version(url, ns.path, channel=ns.channel)
     elif ns.mode == 'build':
         key = ns.key
         if key is None:
             raise ValueError("You must provide a key for the build script.")
-        build_and_upload(ns.path, key, 'menpo', 'testing')
+        # this should figure out the channel for us
+        build_and_upload(ns.path, key, ns.user, 'testing')
