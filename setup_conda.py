@@ -103,6 +103,8 @@ url = os.environ.get('MINICONDA_URL')
 
 def resolve_if_can_upload_from_travis():
     pr = os.environ['TRAVIS_PULL_REQUEST']
+    print("Deciding if we can upload")
+    print(pr)
     # not on a PR -> can upload
     return pr is None
 
@@ -112,10 +114,12 @@ def resolve_channel_from_travis_state():
     tag = os.environ['TRAVIS_TAG']
     if tag is not None and branch == 'master':
         # final release, channel is 'main'
+        print("on a tag and on branch master -> upload to 'main'")
         return 'main'
     else:
+        print("not on a tag on master - just upload to the branch name {"
+              "}".format(branch))
         return branch
-
 
 
 if __name__ == "__main__":
