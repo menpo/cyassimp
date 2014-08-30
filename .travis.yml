@@ -1,0 +1,59 @@
+os:
+  - linux
+  - osx
+
+notifications:
+  email: false
+  webhooks:
+    urls:
+      - https://webhooks.gitter.im/e/7599ff4870c99ba51310
+    on_success: always  # options: [always|never|change] default: always
+    on_failure: always  # options: [always|never|change] default: always
+    on_start: never     # default: never
+
+ # Setup anaconda
+before_install:
+  # setup conda (for Python 2 or 3)
+  - chmod +x setup_conda.py
+  - ./setup_conda.py
+
+  # get the package version
+  - PACKAGE_VERSION=$(git describe --tag --always | sed 's/-/_/g' | cut -c 2-)
+  - echo $PACKAGE_VERSION
+
+  - cd cyassimp
+  - PACKAGE_VERSION_RAW=$(python -c "import os, _version; print(_version.get_versions()['version'])")
+  - echo $PACKAGE_VERSION_RAW
+  - PACKAGE_VERSION=PACKAGE_VERSION_RAW | sed 's/-/_/g' | cut -c 2-
+  - echo $PACKAGE_VERSION
+  - cd ..
+
+  # fix for multiprocessing bug
+  - sudo rm -rf /dev/shm
+  - sudo ln -s /run/shm /dev/shm
+
+install:
+  - echo $TRAVIS_BRANCH
+  - echo $TRAVIS_COMMIT
+  - echo $TRAVIS_PULL_REQUEST
+  - echo $TRAVIS_TAG
+  - cd ./conda
+  # Add the version number
+  - sed "s/VERSION_NO/$PACKAGE_VERSION/g" < meta_no_version.yaml > meta.yaml
+  - cat meta.yaml
+  - cat meta_no_version.yaml
+  - conda build .
+  # find out where the build ended up
+  - wget http://bit.ly/1pqIe85 -O get_tar_path.py
+  - BINSTAR_TAR=$(python get_tar_path.py)
+
+script:
+  # upload to binstar
+  - binstar -t $BINSTAR_KEY upload -u menpo -c testing $BINSTAR_TAR
+
+env:
+  global:
+    secure: uwdgq+mWwgROLeY51aqJrGJcd/dOLWYqsURkqsCUQhWeg9s5mQ0q0G+WZgmoVrY9htn5ORdq9r45ZnZiSPTYmjbw28iB4w1iOzcUZYjQg18AZ3QSZzbkNkVRbOWJZ//3g/T2he1dIa0euk5Mk9qx06+r2OfAgpvOaG8XwB/idRU=
+  matrix:
+    - MINICONDA_URL=http://repo.continuum.io/miniconda/Miniconda-3.6.0-Linux-x86_64.sh
+    - MINICONDA_URL=http://repo.continuum.io/miniconda/Miniconda3-3.6.0-Linux-x86_64.sh
