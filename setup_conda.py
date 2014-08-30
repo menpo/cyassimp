@@ -104,7 +104,8 @@ def resolve_can_upload_from_travis():
 def resolve_channel_from_travis_state():
     branch = os.environ['TRAVIS_BRANCH']
     tag = os.environ['TRAVIS_TAG']
-    if tag is not None and branch == 'master':
+    print('tag found is: "{}"'.format(tag))
+    if tag is not '' and branch == 'master':
         # final release, channel is 'main'
         print("on a tag and on branch master -> upload to 'main'")
         return 'main'
