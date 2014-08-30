@@ -12,21 +12,21 @@ notifications:
     on_start: never     # default: never
 
  # Setup anaconda
-before_install:
+install:
   # setup conda (for Python 2 or 3)
   - chmod +x setup_conda.py
-  - ./setup_conda.py setup ./conda
+  - ./setup_conda.py setup ./conda -u $MINICONDA_URL
   # fix for multiprocessing bug
   - sudo rm -rf /dev/shm
   - sudo ln -s /run/shm /dev/shm
 
-install:
+script:
   - echo $TRAVIS_BRANCH
   - echo $TRAVIS_COMMIT
   - echo $TRAVIS_PULL_REQUEST
   - echo $TRAVIS_TAG
   - export PATH=/home/travis/miniconda/bin:$PATH
-  - ./setup_conda.py build ./conda
+  - ./setup_conda.py build ./conda --key $BINSTAR_KEY
 
 env:
   global:

@@ -113,13 +113,17 @@ if __name__ == "__main__":
         """)
     parser.add_argument("mode", help="'setup' or 'build'")
     parser.add_argument("path", help="path to the conda build scripts")
+    parser.add_argument("-u", "--url", help="URL to download miniconda from")
+    parser.add_argument("-k", "--key", help="The binstar key for uploading")
     ns = parser.parse_args()
-    import os
-    # grab the URL
-    url = os.environ.get('MINICONDA_URL')
 
     if ns.mode == 'setup':
+        url = ns.url
+        if url is None:
+            raise ValueError("You must provide a miniconda URL for the setup command")
         setup_and_find_version(url, ns.path, channel='menpo')
     elif ns.mode == 'build':
-        key = os.environ.get('BINSTAR_KEY')
+        key = ns.key
+        if key is None:
+            raise ValueError("You must provide a key for the build script.")
         build_and_upload(ns.path, key, 'menpo', 'testing')
