@@ -4,7 +4,7 @@ os:
 
 env:
   global:
-  - secure: AyjlGc6MbYk4lwzK90oKqEXLPHIhOWE9Ee3Ez2eJu0ojyZWjE2RI/APrwbfc/Q5p8yHL1eM2rWZFxCxTHlxFwmqTPWcy1KI5vl+yXpQn2scmWcWGzuJbjDwk0SIO6KvjrjHxg3JJcxcO3niNkIbnVsYhMzK05LWQRJ1vissWZXY=
+  - secure: B2hanN3R0XOCTH24EmcUCUipVaEq9Esu37Ch9S2/C3Hy97aQSOqNUUSe2JKE8tZolMApXdePapwJiULinaHO9OPGL6Oo0krnUaT3RnziuykG99axGqHNFCE/5AnwUFY69akqpwCXPh0OyQ4WjsyZ6a9wSPL8dZHkJwY89XEo66Q=
   matrix:
   - MINICONDA_URL=http://repo.continuum.io/miniconda/Miniconda-3.6.0-Linux-x86_64.sh
   - MINICONDA_URL=http://repo.continuum.io/miniconda/Miniconda3-3.6.0-Linux-x86_64.sh
