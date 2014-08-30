@@ -98,11 +98,11 @@ url = os.environ.get('MINICONDA_URL')
 
 
 def resolve_if_can_upload_from_travis():
-    pr = os.environ['TRAVIS_PULL_REQUEST']
+    is_a_pr = os.environ['TRAVIS_PULL_REQUEST'] == 'true'
     print("Deciding if we can upload")
-    print(pr)
+    print(is_a_pr)
     # not on a PR -> can upload
-    return not pr
+    return not is_a_pr
 
 
 def resolve_channel_from_travis_state():
