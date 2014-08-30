@@ -1,6 +1,6 @@
 package:
   name: cyassimp
-  version: VERSION_NO
+  version: VERSION_NUMBER
 
 requirements:
   build:
