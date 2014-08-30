@@ -29,10 +29,11 @@ conda_build = p.join(mc_bin_dir, 'conda-build')
 binstar = p.join(mc_bin_dir, 'binstar')
 
 
-def run_commands(*cmds):
+def run_commands(*cmds, **kwargs):
+    verbose = kwargs.get('verbose', True)
     try:
         for cmd in cmds:
-            x(cmd)
+            execute(cmd, verbose)
     except subprocess.CalledProcessError as e:
         print(' -> {}'.format(e.output))
         raise e
@@ -51,6 +52,10 @@ def setup_conda(url, channel=None):
 
 
 def get_version():
+    travis_tag = os.environ['TRAVIS_TAG']
+    if travis_tag is not None:
+        # we are sat on a tag!
+        return travis_tag[1:]
     raw_describe = x(['git', 'describe', '--tag'])
     # conda does not like '-' in version strings
     return raw_describe.strip().replace('-', '_')[1:]
@@ -74,7 +79,9 @@ def get_conda_build_path(path):
 
 
 def upload_to_binstar(key, user, channel, path):
-    run_commands([binstar, '-t', key, 'upload', '-u', user, '-c', channel, path])
+    # verbose false as we don't want to print our key to Travis!
+    run_commands([binstar, '-t', key, 'upload', '-u', user, '-c', channel,
+                  path], verbose=False)
 
 
 def build_and_upload(path, key, user, channel):
@@ -93,6 +100,23 @@ def setup_and_find_version(url, build_dir, channel=None):
 import os
 # grab the URL
 url = os.environ.get('MINICONDA_URL')
+
+
+def resolve_if_can_upload_from_travis():
+    pr = os.environ['TRAVIS_PULL_REQUEST']
+    # not on a PR -> can upload
+    return pr is None
+
+
+def resolve_channel_from_travis_state():
+    branch = os.environ['TRAVIS_BRANCH']
+    tag = os.environ['TRAVIS_TAG']
+    if tag is not None and branch == 'master':
+        # final release, channel is 'main'
+        return 'main'
+    else:
+        return branch
+
 
 
 if __name__ == "__main__":
@@ -120,5 +144,7 @@ if __name__ == "__main__":
         key = ns.key
         if key is None:
             raise ValueError("You must provide a key for the build script.")
-        # this should figure out the channel for us
-        build_and_upload(ns.path, key, ns.user, 'testing')
+        can_upload = resolve_if_can_upload_from_travis()
+        if can_upload:
+            channel = resolve_channel_from_travis_state()
+            build_and_upload(ns.path, key, ns.user, 'testing')
