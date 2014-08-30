@@ -106,9 +106,9 @@ def resolve_channel_from_travis_state():
     tag = os.environ['TRAVIS_TAG']
     print('Travis branch is "{}"'.format(branch))
     print('Travis tag found is: "{}"'.format(tag))
-    if tag != '' and branch == 'master':
+    if tag != '' and branch == tag:
         # final release, channel is 'main'
-        print("on a tag and on branch master -> upload to 'main'")
+        print("on a tagged release -> upload to 'main'")
         return 'main'
     else:
         print("not on a tag on master - just upload to the branch name {"
