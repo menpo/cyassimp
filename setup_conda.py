@@ -53,6 +53,7 @@ def setup_conda(url, channel=None):
 
 def get_version():
     travis_tag = os.environ['TRAVIS_TAG']
+    print(travis_tag)
     if travis_tag is not None:
         # we are sat on a tag!
         return travis_tag[1:]
