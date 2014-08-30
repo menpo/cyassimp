@@ -14,13 +14,8 @@ notifications:
  # Setup anaconda
 before_install:
   # setup conda (for Python 2 or 3)
-  - wget $MINICONDA_URL -O miniconda.sh
-  - chmod +x miniconda.sh
-  - ./miniconda.sh -b -p ~/miniconda
-  - export PATH=/home/travis/miniconda/bin:$PATH
-  - conda update --yes conda
-  - conda install --yes conda-build jinja2 binstar
-  - conda config --add channels menpo
+  - chmod +x setup_conda.py
+  - ./setup_conda.py
 
   # get the package version
   - PACKAGE_VERSION=$(git describe --tag --always | sed 's/-/_/g' | cut -c 2-)
