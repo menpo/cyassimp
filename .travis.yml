@@ -10,14 +10,15 @@ env:
   - MINICONDA_URL=http://repo.continuum.io/miniconda/Miniconda3-3.6.0-Linux-x86_64.sh
 
 install:
-- chmod +x setup_conda.py
-- ./setup_conda.py setup ./conda --url $MINICONDA_URL --channel menpo
+- wget https://raw.githubusercontent.com/jabooth/traviconda/master/traviconda.py -O traviconda.py
+- chmod +x traviconda.py
+- ./traviconda.py setup ./conda --url $MINICONDA_URL --channel menpo
 - sudo rm -rf /dev/shm
 - sudo ln -s /run/shm /dev/shm
 - export PATH=/home/travis/miniconda/bin:$PATH
 
 script:
-- ./setup_conda.py build ./conda --user menpo --key $BINSTAR_KEY
+- ./traviconda.py build ./conda --user menpo --key $BINSTAR_KEY
 
 notifications:
   email: false
