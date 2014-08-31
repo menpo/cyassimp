@@ -10,7 +10,7 @@ env:
   - MINICONDA_URL=http://repo.continuum.io/miniconda/Miniconda3-3.6.0-Linux-x86_64.sh
 
 install:
-- wget https://raw.githubusercontent.com/jabooth/traviconda/master/traviconda.py -O traviconda.py
+- wget https://raw.githubusercontent.com/jabooth/traviconda/beta/traviconda.py -O traviconda.py
 - chmod +x traviconda.py
 - ./traviconda.py setup ./conda --url $MINICONDA_URL --channel menpo
 - sudo rm -rf /dev/shm
