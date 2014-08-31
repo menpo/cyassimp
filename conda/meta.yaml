@@ -1,6 +1,6 @@
 package:
   name: cyassimp
-  version: 0.0.0.beta
+  version: {{ environ['CYASSIMP_VERSION'] }}
 
 requirements:
   build:
