@@ -11,14 +11,13 @@ env:
 
 install:
 - wget https://raw.githubusercontent.com/jabooth/traviconda/beta/traviconda.py -O traviconda.py
-- chmod +x traviconda.py
-- ./traviconda.py setup --url $MINICONDA_URL --channel menpo
+- python traviconda.py setup --url $MINICONDA_URL --channel menpo
 - sudo rm -rf /dev/shm
 - sudo ln -s /run/shm /dev/shm
 - export PATH=/home/travis/miniconda/bin:$PATH
 
 script:
-- ./traviconda.py build ./conda --user menpo --key $BINSTAR_KEY
+- python traviconda.py build ./conda --user menpo --key $BINSTAR_KEY
 
 notifications:
   email: false
