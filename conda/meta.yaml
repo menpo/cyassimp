@@ -1,6 +1,6 @@
 package:
   name: cyassimp
-  version: {{ environ['CYASSIMP_VERSION'] }}
+  version: {{ environ['TC_PACKAGE_VERSION'] }}
 
 requirements:
   build:

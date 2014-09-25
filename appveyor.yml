@@ -1,0 +1,21 @@
+build: false
+
+environment:
+  global:
+    BINSTAR_USER: menpo
+    BINSTAR_KEY:
+      secure: cug2cNlY8ww/BdFrV+WPF984Gkd4zHDYB1pklc/7EWna+++aJF1UGvcMPkgOZzrj
+  matrix:
+    - PYTHON_VERSION: 2
+    - PYTHON_VERSION: 3
+
+platform:
+- x86
+- x64
+
+init:
+- ps: Start-FileDownload 'https://raw.githubusercontent.com/jabooth/condaci/master/condaci.py' C:\\condaci.py; echo "Done"
+- cmd: python C:\\condaci.py setup %PYTHON_VERSION% --channel %BINSTAR_USER%
+
+install:
+- cmd: C:\\Miniconda\\python C:\\condaci.py auto ./conda --binstaruser %BINSTAR_USER% --binstarkey %BINSTAR_KEY%

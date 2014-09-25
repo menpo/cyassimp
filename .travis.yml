@@ -1,25 +1,21 @@
-os:
-- linux
-- osx
-
 env:
   global:
-  - secure: GQYQKvT5N+ZP45jP/DqvBdSy3QLnkchGlV55qxghpqAlz5cqR6RMBSH8IIVF1UDqzbQQ1C8P4ziWX5OQ179Cu0qbXUCxUeG/bmY9FemR9F+OfVed5cPCEA6/AtqCCQfOPTDUoVB8syJTrUNjPelB3CT6astwAZH+OeJl3vOQfcU=
+  - BINSTAR_USER: menpo
   matrix:
   - PYTHON_VERSION=2
   - PYTHON_VERSION=3
 
 install:
-- wget https://raw.githubusercontent.com/jabooth/traviconda/master/traviconda.py -O traviconda.py
-- python traviconda.py setup $PYTHON_VERSION --channel menpo
-- export CYASSIMP_VERSION=$(python traviconda.py version)
-- export PATH=/home/travis/miniconda/bin:$PATH
+- wget https://raw.githubusercontent.com/jabooth/condaci/master/condaci.py -O condaci.py
+- python condaci.py setup $PYTHON_VERSION --channel $BINSTAR_USER
+- export PATH=$HOME/miniconda/bin:$PATH
 
 script:
-- python traviconda.py auto ./conda --binstaruser menpo --binstarkey $BINSTAR_KEY --pypiuser $PYPI_USERNAME  --pypipassword $PYPI_PASSWORD
+- python condaci.py auto ./conda --binstaruser $BINSTAR_USER --binstarkey $BINSTAR_KEY --pypiuser $PYPI_USERNAME  --pypipassword $PYPI_PASSWORD
 
 notifications:
   email: false
+  flowdock: 769202b66114a5ce0e61df484dfeb177
   webhooks:
     urls:
     - https://webhooks.gitter.im/e/7599ff4870c99ba51310
