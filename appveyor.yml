@@ -7,7 +7,13 @@ environment:
       secure: cug2cNlY8ww/BdFrV+WPF984Gkd4zHDYB1pklc/7EWna+++aJF1UGvcMPkgOZzrj
   matrix:
     - PYTHON_VERSION: 2
+      CONDA_NPY: 18
+    - PYTHON_VERSION: 2
+      CONDA_NPY: 19
     - PYTHON_VERSION: 3
+      CONDA_NPY: 18
+    - PYTHON_VERSION: 3
+      CONDA_NPY: 19
 
 platform:
 - x86

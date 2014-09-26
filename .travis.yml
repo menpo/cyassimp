@@ -2,8 +2,14 @@ env:
   global:
   - BINSTAR_USER: menpo
   matrix:
-  - PYTHON_VERSION=2
-  - PYTHON_VERSION=3
+   - PYTHON_VERSION=2
+     CONDA_NPY=18
+   - PYTHON_VERSION=2
+     CONDA_NPY=19
+   - PYTHON_VERSION=3
+     CONDA_NPY=18
+   - PYTHON_VERSION=3
+     CONDA_NPY=19
 
 install:
 - wget https://raw.githubusercontent.com/jabooth/condaci/master/condaci.py -O condaci.py
