@@ -34,6 +34,7 @@ import sys
 import os
 import shutil
 from glob import glob
+from functools import reduce
 
 
 def localpath(*args):
