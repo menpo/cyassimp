@@ -25,6 +25,36 @@ ext_kwargs = {
     'language': 'c++'
 }
 
+package_data_globs = ['*.pyx', 'cpp/*.h']
+
+# This is a patch for windows with Conda that allows easy installation of
+# cyassimp on Windows! We essentially just copy the DLLs into the path
+# so that compiling/run time linking works.
+import sys
+import os
+import shutil
+from glob import glob
+
+
+def localpath(*args):
+    return os.path.abspath(reduce(os.path.join,
+                                  (os.path.dirname(__file__),) + args))
+
+using_conda = False
+if sys.platform.startswith('win'):
+    CONDA_ASSIMP_DIR = os.environ['CONDA_ASSIMP_DIR']
+    if CONDA_ASSIMP_DIR is not None:
+        using_conda = True
+        # user has set CONDA_ASSIMP_DIR
+        ext_kwargs['include_dirs'] = [os.path.join(CONDA_ASSIMP_DIR, 'include')]
+        ext_kwargs['library_dirs'] = [os.path.join(CONDA_ASSIMP_DIR, 'lib')]
+        dlls = glob(os.path.join(CONDA_ASSIMP_DIR, 'lib', 'Assimp*.dll'))
+        for d in dlls:
+            basename = os.path.basename(d)
+            shutil.copy(d, localpath('cyassimp', basename))
+        # look for .dlls on the package_data
+        package_data_globs.append('*.dll')
+
 ext_name = 'cyassimp.cyassimpwrapper'
 
 
@@ -112,7 +142,7 @@ setup(name='cyassimp',
       ],
       ext_modules=extensions,
       packages=find_packages(),
-      package_data={'cyassimp': ['*.pyx', 'cpp/*.h']},
+      package_data={'cyassimp': package_data_globs},
       setup_requires=['numpy>=1.8.0'],
       install_requires=['numpy>=1.8.0']
       )
