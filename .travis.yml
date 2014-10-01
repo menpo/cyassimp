@@ -1,27 +1,21 @@
 env:
   global:
-  - BINSTAR_USER: menpo
+    - BINSTAR_USER: menpo
   matrix:
-   - PYTHON_VERSION=2
-     CONDA_NPY=18
-   - PYTHON_VERSION=2
-     CONDA_NPY=19
-   - PYTHON_VERSION=3
-     CONDA_NPY=18
-   - PYTHON_VERSION=3
-     CONDA_NPY=19
+    - PYTHON_VERSION: 2.7
+    - PYTHON_VERSION: 3.4
 
 install:
-- wget https://raw.githubusercontent.com/jabooth/condaci/master/condaci.py -O condaci.py
+- wget https://raw.githubusercontent.com/jabooth/condaci/v0.2.0/condaci.py -O condaci.py
 - python condaci.py setup $PYTHON_VERSION --channel $BINSTAR_USER
 - export PATH=$HOME/miniconda/bin:$PATH
 
 script:
-- python condaci.py auto ./conda --binstaruser $BINSTAR_USER --binstarkey $BINSTAR_KEY --pypiuser $PYPI_USERNAME  --pypipassword $PYPI_PASSWORD
+- python condaci.py auto ./conda --binstaruser $BINSTAR_USER --binstarkey $BINSTAR_KEY
 
 notifications:
+  slack: menpo:19gyWImMkOfCj0iDAgTbDlDA
   email: false
-  flowdock: 769202b66114a5ce0e61df484dfeb177
   webhooks:
     urls:
     - https://webhooks.gitter.im/e/7599ff4870c99ba51310
