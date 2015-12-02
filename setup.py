@@ -1,19 +1,9 @@
 from setuptools import setup, find_packages, Extension
 from setuptools.command.build_ext import build_ext as _build_ext
 import os.path as op
-
 import versioneer
 
-# Versioneer allows us to automatically generate versioning from
-# our git tagging system which makes releases simpler.
-versioneer.VCS = 'git'
-versioneer.versionfile_source = 'cyassimp/_version.py'
-versioneer.versionfile_build = 'cyassimp/_version.py'
-versioneer.tag_prefix = 'v'  # tags are like v1.2.0
-versioneer.parentdir_prefix = 'cyassimp-'  # dirname like 'cyassimp-v1.2.0'
-
 # Partially adapted from https://github.com/OP2/PyOP2/blob/master/setup.py
-
 
 pyx_sources = [op.join('cyassimp', 'cyassimpwrapper.pyx')]
 cythonized_sources = [op.join('cyassimp', 'cyassimpwrapper.cpp')]
@@ -147,6 +137,6 @@ setup(name='cyassimp',
       ext_modules=extensions,
       packages=find_packages(),
       package_data={'cyassimp': package_data_globs},
-      setup_requires=['numpy>=1.9.1,<1.10'],
-      install_requires=['numpy>=1.9.1,<1.10']
+      setup_requires=['numpy>=1.10'],
+      install_requires=['numpy>=1.10']
       )
